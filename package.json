@@ -2,9 +2,9 @@
   "name": "tinymce-vr-button",
   "version": "1.0.0",
   "description": "TinyMCE 4 VR Button Plugin for 720yun.com - Inline VR 360° panorama viewer",
-  "main": "dist/plugin.min.js",
+  "main": "docs/plugin.min.js",
   "files": [
-    "dist/",
+    "docs/",
     "README.md",
     "LICENSE"
   ],
@@ -20,7 +20,7 @@
     "dev": "rspack serve --mode development",
     "build": "rspack build --mode production",
     "build:dev": "rspack build --mode development",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist docs",
     "prepublishOnly": "yarn build"
   },
   "keywords": [

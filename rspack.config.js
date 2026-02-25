@@ -4,6 +4,7 @@ const { CopyRspackPlugin, BannerPlugin } = require('@rspack/core');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
+  const outputDir = isProduction ? path.resolve(__dirname, 'docs') : path.resolve(__dirname, 'dist');
   
   return {
     entry: {
@@ -13,7 +14,7 @@ module.exports = (env, argv) => {
     },
     
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: outputDir,
       filename: isProduction ? '[name].min.js' : '[name].js',
       clean: true,
       publicPath: '/'
@@ -50,15 +51,15 @@ module.exports = (env, argv) => {
         patterns: [
           {
             from: path.resolve(__dirname, 'node_modules/tinymce/skins'),
-            to: path.resolve(__dirname, 'dist/skins')
+            to: path.resolve(outputDir, 'skins')
           },
           {
             from: path.resolve(__dirname, 'src/vr-button.css'),
-            to: path.resolve(__dirname, isProduction ? 'dist/vr-button.min.css' : 'dist/vr-button.css')
+            to: path.resolve(outputDir, isProduction ? 'vr-button.min.css' : 'vr-button.css')
           },
           {
             from: path.resolve(__dirname, 'src/vr-button.css'),
-            to: path.resolve(__dirname, 'dist/vr-button.css')
+            to: path.resolve(outputDir, 'vr-button.css')
           }
         ]
       }),
@@ -85,7 +86,9 @@ module.exports = (env, argv) => {
       historyApiFallback: true,
       devMiddleware: {
         writeToDisk: true
-      }
+      },
+      hot: false,
+      open: false
     },
     
     devtool: isProduction ? 'source-map' : 'eval-source-map',
