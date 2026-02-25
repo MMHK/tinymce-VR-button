@@ -1,13 +1,27 @@
 {
   "name": "tinymce-vr-button",
   "version": "1.0.0",
-  "description": "TinyMCE 4 VR Button Plugin for 720yun.com with rspack build system",
-  "main": "dist/plugin.js",
+  "description": "TinyMCE 4 VR Button Plugin for 720yun.com - Inline VR 360° panorama viewer",
+  "main": "dist/plugin.min.js",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MMHK/tinymce-VR-button.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MMHK/tinymce-VR-button/issues"
+  },
+  "homepage": "https://github.com/MMHK/tinymce-VR-button#readme",
   "scripts": {
     "dev": "rspack serve --mode development",
     "build": "rspack build --mode production",
     "build:dev": "rspack build --mode development",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "yarn build"
   },
   "keywords": [
     "tinymce",
@@ -18,14 +32,16 @@
     "panorama"
   ],
   "author": "MMHK",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "packageManager": "yarn@4.12.0",
   "devDependencies": {
     "@rspack/cli": "^1.2.0",
     "@rspack/core": "^1.2.0",
     "@rspack/dev-server": "^1.2.0",
     "css-loader": "^7.1.0",
+    "expose-loader": "^5.0.1",
     "html-webpack-plugin": "^5.6.0",
+    "imports-loader": "^5.0.0",
     "mini-css-extract-plugin": "^2.9.0",
     "style-loader": "^4.0.0",
     "tinymce": "4.0.26"

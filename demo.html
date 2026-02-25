@@ -103,14 +103,13 @@
             selector: '#tinymce-editor',
             height: 400,
             plugins: [
-                'vrbutton',
                 'advlist autolink lists link image charmap print preview anchor',
                 'searchreplace visualblocks code fullscreen',
                 'insertdatetime media table contextmenu paste'
             ],
             toolbar: 'vrbutton | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
             external_plugins: {
-                'vrbutton': 'plugin.js'
+                'vrbutton': './'
             },
             content_css: 'css/vr-button.css',
             setup: function(editor) {

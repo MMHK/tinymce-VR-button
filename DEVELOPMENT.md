@@ -1,180 +1,62 @@
 # Development Guide
 
-## 🚀 Quick Start
+## 🚀 快速開始
 
 ```bash
-# Install dependencies
 yarn install
-
-# Start development server
-yarn dev
-
-# Build for production
-yarn build
+yarn dev      # http://localhost:3030
+yarn build    # 打包到 dist/
+yarn clean    # 清理 dist
 ```
 
-## 📁 Project Structure
+## 📁 項目結構
 
 ```
-tinymce-VR-button/
-├── src/                      # Source files
-│   ├── plugin.js            # Main TinyMCE plugin
-│   ├── demo.js              # Demo page entry
-│   └── vr-button.css        # Plugin styles
-├── public/                   # Static assets
-│   └── index.html           # Demo HTML template
-├── dist/                     # Build output (generated)
-├── package.json             # Dependencies & scripts
-├── rspack.config.js         # Rspack configuration
-├── .yarnrc.yml              # Yarn v4 configuration
-└── README.md                # Documentation
+src/
+├── plugin.js        # 插件主程式
+├── demo.js          # Demo 頁面
+└── vr-button.css    # 樣式
 ```
 
-## 🛠️ Development Workflow
+## 🔧 開發配置
 
-### 1. Development Mode
+### Rspack
 
-```bash
-yarn dev
-```
-
-- Starts dev server at `http://localhost:3000`
-- Hot module replacement enabled
-- Source maps enabled
-
-### 2. Build for Production
-
-```bash
-yarn build
-```
-
-- Outputs to `dist/` directory
-- Minified files: `plugin.min.js`, `demo.min.js`
-- Source maps included
-
-### 3. Clean Build
-
-```bash
-yarn clean
-```
-
-## 📦 Dependencies
-
-### Production
-- **tinymce**: ^4.0.26 (peer dependency)
-
-### Development
-- **@rspack/cli**: Build tool
-- **@rspack/core**: Core rspack
-- **@rspack/dev-server**: Dev server
-- **css-loader**: CSS processing
-- **style-loader**: Inject CSS in dev
-- **html-webpack-plugin**: HTML generation
-
-## 🔧 Configuration
-
-### Rspack Config (`rspack.config.js`)
-
-- **Entry**: `plugin.js` (standalone), `demo.js` (demo page)
+- **Entry**: `plugin.js`, `demo.js`
 - **Output**: `dist/`
-- **Dev Server**: Port 3000
-- **CSS**: Injected in dev, extracted in production
+- **Dev Server**: Port 3030
+- **Externals**: `tinymce`（不打包）
 
-### TinyMCE Integration
+### TinyMCE 4 插件規範
 
-```javascript
-tinymce.init({
-    selector: '#editor',
-    plugins: ['vrbutton'],
-    toolbar: 'vrbutton',
-    external_plugins: {
-        'vrbutton': '/plugin.js'  // Path to built plugin
-    },
-    content_css: '/vr-button.css'  // Path to styles
-});
-```
+- 使用 ES5 語法
+- `tinymce.PluginManager.add('vrbutton', function(editor, url) { ... })`
+- `url` 為插件目錄路徑，用於載入資源
 
-## 🎯 Features
+## 🐛 調試
 
-### Plugin Features
-- ✅ Toolbar button (VR icon)
-- ✅ Dialog for URL input
-- ✅ URL validation (720yun.com format)
-- ✅ Visual placeholder in editor
-- ✅ Double-click to edit
-- ✅ Context menu support
-- ✅ Desktop: Inline iframe overlay (800x600)
-- ✅ Mobile: Opens in new tab
+1. 打開 `http://localhost:3030`
+2. DevTools → Sources → `webpack://` → `./src/`
 
-### Development Features
-- ✅ Hot reload
-- ✅ Source maps
-- ✅ Modern build system (Rspack)
-- ✅ CSS injection
-- ✅ Asset optimization
+### 常見問題
 
-## 📝 Code Style
+**Plugin 載入失敗**
+- 檢查 `external_plugins` 路徑
+- 確認 TinyMCE 先於插件載入
 
-- ES5 syntax for TinyMCE 4 compatibility
-- JSDoc comments
-- Consistent indentation (4 spaces)
-- Semantic naming
+**樣式未生效**
+- 檢查 `content_css` 路徑
+- 確認 CSS 在 Network 面板已載入
 
-## 🐛 Debugging
-
-### Browser DevTools
-1. Open `http://localhost:3000`
-2. Open DevTools → Sources
-3. Navigate to `webpack://` → `./src/`
-
-### Common Issues
-
-**Issue**: Plugin not loading
-- Check console for errors
-- Verify `external_plugins` path
-- Ensure TinyMCE is loaded before plugin
-
-**Issue**: Styles not applied
-- Check `content_css` path
-- Verify CSS is loaded in network tab
-
-## 🔌 API Reference
-
-### Plugin Methods
-
-```javascript
-// Add to TinyMCE
-editor.addButton('vrbutton', {...});
-editor.addMenuItem('vrbutton', {...});
-
-// Dialog
-editor.windowManager.open({...});
-
-// Insert content
-editor.insertContent(html);
-```
-
-### Helper Functions
-
-- `isMobile()` - Detect mobile device
-- `isValid720yunUrl(url)` - Validate URL format
-- `showInlineVR(url)` - Show desktop overlay
-- `openVRView(url)` - Open based on device
-
-## 📚 Resources
+## 📚 相關文檔
 
 - [TinyMCE 4 Docs](https://www.tiny.cloud/docs-4x/)
 - [Rspack Docs](https://rspack.dev/)
-- [720yun.com](https://720yun.com/)
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
+1. Fork repository
+2. `git checkout -b feature/amazing-feature`
+3. `git commit -m 'Add amazing feature'`
+4. `git push origin feature/amazing-feature`
 5. Open Pull Request
-
-## 📄 License
-
-MIT License - see LICENSE file

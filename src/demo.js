@@ -1,11 +1,16 @@
 // Demo entry point for TinyMCE VR Button Plugin
 import './vr-button.css';
 
+// TinyMCE is loaded from CDN in index.html
+// VR Button plugin is auto-registered when imported
+import './plugin';
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize TinyMCE with VR Button plugin
     tinymce.init({
         selector: '#tinymce-editor',
         height: 500,
+        theme: 'modern',
         plugins: [
             'vrbutton',
             'advlist autolink lists link image charmap print preview anchor',
@@ -13,10 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
             'insertdatetime media table contextmenu paste'
         ],
         toolbar: 'vrbutton | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-        external_plugins: {
-            'vrbutton': '/plugin.js'
-        },
-        content_css: '/vr-button.css',
         setup: function(editor) {
             // Update preview on content change
             editor.on('change keyup SetContent', function() {

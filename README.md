@@ -1,149 +1,127 @@
 # TinyMCE VR Button Plugin
 
-用于 TinyMCE 4.0.26 的 VR 360° 按钮插件，支持 720yun.com 平台。
+TinyMCE 4 插件，用於插入 720yun.com VR 360° 全景鏈接。
 
 ## ✨ Features
 
-- 🎮 **Toolbar Button**: VR icon in TinyMCE toolbar
-- 🔗 **URL Input**: Dialog for entering 720yun VR links
-- 📱 **Responsive Design**:
-  - Desktop: Inline iframe overlay (800×600px)
-  - Mobile: Opens in new window
-- 🎨 **Modern UI**: Gradient styled VR button
-- ✏️ **Editable**: Double-click or context menu to edit links
-- 🔧 **Validation**: URL format checking
+- 🎮 工具欄 VR 按鈕
+- 🔗 支持 720yun.com 鏈接
+- 📱 響應式：Desktop 彈窗 / Mobile 新窗口
+- ✏️ 雙擊編輯 VR 鏈接
 
-## 🚀 Quick Start
+## 🚀 快速開始
 
-### Installation
+### 1. 打包
 
 ```bash
-# Clone repository
-git clone https://github.com/MMHK/tinymce-VR-button.git
-cd tinymce-VR-button
-
-# Install dependencies
 yarn install
-
-# Start development server
-yarn dev
-```
-
-Open browser: `http://localhost:3000`
-
-### Usage
-
-1. Click the **VR** button in TinyMCE toolbar
-2. Enter a 720yun URL: `https://720yun.com/t/xxxxx`
-3. A VR 360° button appears in the editor
-4. Click the button:
-   - **Desktop**: Opens 800×600px inline iframe
-   - **Mobile**: Opens in new tab
-
-## 📦 Production Usage
-
-### Option 1: Use Built Files
-
-```bash
 yarn build
 ```
 
-Copy files from `dist/`:
-- `plugin.min.js` - Plugin file
-- `vr-button.css` - Styles
+打包後檔案在 `dist/`：
+- `plugin.min.js` - TinyMCE 插件（**已包含 CSS，編輯器只需此檔案**）
+- `vr-runtime.min.js` - 前端 runtime（**已包含 CSS**）
+- `vr-button.css` - 單獨樣式文件（可選，如需自定義樣式）
 
-### Option 2: CDN (Example)
+### 2. 編輯器配置（TinyMCE）
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.0.26/tinymce.min.js"></script>
-<script src="path/to/plugin.min.js"></script>
-<link rel="stylesheet" href="path/to/vr-button.css">
+
+<textarea id="editor"></textarea>
 
 <script>
 tinymce.init({
     selector: '#editor',
-    plugins: ['vrbutton'],
+    plugins: 'vrbutton',
     toolbar: 'vrbutton',
     external_plugins: {
         'vrbutton': 'path/to/plugin.min.js'
-    },
-    content_css: 'path/to/vr-button.css'
+    }
+    // 無需 content_css，CSS 已打包在 plugin.min.js 中
 });
 </script>
 ```
 
-## 📁 Project Structure
+### 3. 前端展示頁面（重要！）
 
-```
-tinymce-VR-button/
-├── src/                      # Source files
-│   ├── plugin.js            # Main plugin source
-│   ├── demo.js              # Demo page entry
-│   └── vr-button.css        # Plugin styles
-├── public/
-│   └── index.html           # Demo template
-├── dist/                     # Build output
-│   ├── plugin.min.js
-│   ├── demo.min.js
-│   └── vr-button.css
-├── package.json
-├── rspack.config.js         # Rspack configuration
-├── .yarnrc.yml              # Yarn v4 config
-├── DEVELOPMENT.md           # Development guide
-└── README.md                # This file
+當你在其他頁面**展示** TinyMCE 保存的內容時，只需引入 runtime 文件：
+
+```html
+<!-- Runtime JS（已包含 CSS，處理點擊事件、顯示彈窗） -->
+<script src="path/to/vr-runtime.min.js"></script>
+
+<!-- TinyMCE 保存的 HTML 內容 -->
+<div class="content">
+    <span class="vr-360-container" data-vr-url="https://720yun.com/t/xxxxx">...</span>
+</div>
 ```
 
-## 🛠️ Development
+⚠️ **必須引入的文件**：
 
-### Scripts
+| 使用場景 | 需要的文件 |
+|----------|-----------|
+| **TinyMCE 編輯器** | `plugin.min.js` **（已包含 CSS）** |
+| **前端展示頁面** | `vr-runtime.min.js` **（已包含 CSS）** |
+
+## 📦 npm 安裝
 
 ```bash
-yarn install   # Install dependencies
-yarn dev       # Start dev server (http://localhost:3000)
-yarn build     # Build for production
-yarn clean     # Clean dist folder
+npm install github:MMHK/tinymce-VR-button
 ```
 
-### Tech Stack
+```javascript
+// TinyMCE 編輯器頁面
+// plugin.min.js 已包含 CSS，只需引入 JS
+import 'tinymce-vr-button/dist/plugin.min.js';
 
-- **Build Tool**: [Rspack](https://rspack.dev/) - Rust-based webpack alternative
-- **Package Manager**: [Yarn v4](https://yarnpkg.com/) - Modern package management
-- **Dev Server**: Hot reload, source maps
-- **TinyMCE**: Version 4.0.26
+tinymce.init({
+    selector: '#editor',
+    plugins: 'vrbutton',
+    toolbar: 'vrbutton'
+    // 無需 content_css
+});
+```
 
-See [DEVELOPMENT.md](DEVELOPMENT.md) for detailed development guide.
+```javascript
+// 前端展示頁面（顯示 TinyMCE 內容）
+// vr-runtime 已包含 CSS，只需引入 JS
+import 'tinymce-vr-button/dist/vr-runtime.min.js';
+```
 
-## 🔧 Technical Specs
+## 📁 項目結構
 
-- **TinyMCE Version**: 4.0.26+
-- **Browsers**: Chrome, Firefox, Safari, Edge, IE 11+
-- **Mobile Breakpoint**: < 768px
-- **Overlay Size**: 800×600px (desktop)
-- **URL Format**: `https://720yun.com/t/{id}`
+```
+tinymce-vr-button/
+├── src/
+│   ├── plugin.js         # TinyMCE 插件源碼
+│   ├── vr-runtime.js     # 前端展示 runtime
+│   └── vr-button.css     # 樣式源碼
+├── dist/                 # 打包輸出
+│   ├── plugin.min.js     # TinyMCE 插件（JS + CSS）
+│   ├── vr-runtime.min.js # 前端 runtime（JS + CSS）
+│   └── vr-button.css     # 單獨樣式（可選，供自定義）
+├── package.json
+├── rspack.config.js
+└── DEVELOPMENT.md
+```
 
-## 📋 Supported URL Formats
+## 🛠️ 開發
 
-- ✅ `https://720yun.com/t/xxxxx`
-- ✅ `http://720yun.com/t/xxxxx`
+```bash
+yarn dev      # 開發服務器 http://localhost:3030
+yarn build    # 生產打包
+yarn clean    # 清理 dist
+```
 
-## 🤝 Contributing
+詳見 [DEVELOPMENT.md](DEVELOPMENT.md)
 
-Contributions welcome! Please read [DEVELOPMENT.md](DEVELOPMENT.md) for guidelines.
+## 🔧 技術規格
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open Pull Request
+- **TinyMCE**: 4.0.26+
+- **URL 格式**: `https://720yun.com/t/{id}`
+- **Desktop 彈窗**: 800×600px iframe
 
 ## 📄 License
 
-MIT License © MMHK
-
-## 👤 Author
-
-[MMHK](https://github.com/MMHK)
-
----
-
-Built with ❤️ using [Rspack](https://rspack.dev/) + [Yarn v4](https://yarnpkg.com/)
+Apache License 2.0 © MMHK

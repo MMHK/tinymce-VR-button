@@ -6,10 +6,20 @@
  * This plugin adds a VR 360° button to TinyMCE toolbar for inserting 720yun.com links.
  * Desktop: Opens inline iframe overlay (800x600)
  * Mobile: Opens in new window
+ * 
+ * CSS is bundled - no separate CSS file needed for the popup overlay styles.
  */
 
-(function() {
+// Import CSS for popup overlay (injected into page automatically)
+import './vr-button.css';
+
+(function(tinymce) {
     'use strict';
+
+    if (!tinymce) {
+        console.error('TinyMCE is required for vrbutton plugin');
+        return;
+    }
 
     tinymce.PluginManager.add('vrbutton', function(editor, url) {
         // VR Container Icon SVG
@@ -33,7 +43,7 @@
          * @returns {boolean}
          */
         function isValid720yunUrl(url) {
-            return /^https?:\/\/720yun\.com\/t\/[a-zA-Z0-9]+/.test(url);
+            return /^https?:\/\/(www\.)?720yun\.com\/t\/[a-zA-Z0-9]+/.test(url);
         }
 
         /**
@@ -228,30 +238,32 @@
             }
         });
 
-        // Add context menu for editing
-        editor.addContextToolbar(function(element) {
-            return editor.dom.is(element, '.vr-360-container');
-        }, 'vrbutton_edit | remove');
+        // Add context toolbar for editing (TinyMCE 4.2+)
+        if (editor.addContextToolbar) {
+            editor.addContextToolbar(function(element) {
+                return editor.dom.is(element, '.vr-360-container');
+            }, 'vrbutton_edit | remove');
 
-        editor.addButton('vrbutton_edit', {
-            icon: 'edit',
-            tooltip: 'Edit VR Link',
-            onclick: function() {
-                var node = editor.selection.getNode();
-                var container = null;
-                
-                if (node.closest) {
-                    container = node.closest('.vr-360-container');
+            editor.addButton('vrbutton_edit', {
+                icon: 'edit',
+                tooltip: 'Edit VR Link',
+                onclick: function() {
+                    var node = editor.selection.getNode();
+                    var container = null;
+                    
+                    if (node.closest) {
+                        container = node.closest('.vr-360-container');
+                    }
+                    
+                    if (container) {
+                        var currentUrl = container.getAttribute('data-vr-url') || '';
+                        showVRDialog(currentUrl, function(newUrl) {
+                            container.setAttribute('data-vr-url', newUrl);
+                        });
+                    }
                 }
-                
-                if (container) {
-                    var currentUrl = container.getAttribute('data-vr-url') || '';
-                    showVRDialog(currentUrl, function(newUrl) {
-                        container.setAttribute('data-vr-url', newUrl);
-                    });
-                }
-            }
-        });
+            });
+        }
 
         // Inject CSS into editor iframe
         editor.on('init', function() {
@@ -312,4 +324,4 @@
             }
         };
     });
-})();
+})(tinymce);
