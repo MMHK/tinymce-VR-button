@@ -73,14 +73,14 @@ import './vr-button.css';
             var overlay = document.createElement('div');
             overlay.className = 'vr-360-overlay';
             overlay.innerHTML = 
-                '<div class="vr-360-overlay-backdrop"></div>' +
-                '<div class="vr-360-overlay-content">' +
-                    '<div class="vr-360-overlay-header">' +
-                        '<span class="vr-360-overlay-title">360° View</span>' +
-                        '<button class="vr-360-overlay-close" title="Close" type="button">&times;</button>' +
+                '<div class="vr-360-overlay-backdrop" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:999998;"></div>' +
+                '<div class="vr-360-overlay-content" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;max-width:90vw;height:600px;max-height:80vh;background:#000;border-radius:8px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5);display:flex;flex-direction:column;z-index:999999;">' +
+                    '<div class="vr-360-overlay-header" style="padding:12px 16px;background:#1a1a1a;border-bottom:1px solid #333;display:flex;align-items:center;justify-content:space-between;">' +
+                        '<span class="vr-360-overlay-title" style="color:#fff;font-size:16px;font-weight:600;">360 View</span>' +
+                        '<button class="vr-360-overlay-close" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:#999;font-size:24px;cursor:pointer;border-radius:4px;" title="Close">&times;</button>' +
                     '</div>' +
-                    '<div class="vr-360-overlay-body">' +
-                        '<iframe src="' + encodeURI(vrUrl) + '" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>' +
+                    '<div class="vr-360-overlay-body" style="flex:1;position:relative;overflow:hidden;">' +
+                        '<iframe src="' + encodeURI(vrUrl) + '" style="width:100%;height:100%;border:none;display:block;" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>' +
                     '</div>' +
                 '</div>';
 
@@ -155,7 +155,7 @@ import './vr-button.css';
             var placeholderHtml = 
                 '<span class="vr-360-container mceNonEditable" contenteditable="false" data-vr-url="' + tinymce.DOM.encode(vrUrl) + '">' +
                     vrContainerIcon +
-                    '<span class="vr-360-label">360°</span>' +
+                    '<span class="vr-360-label">VR 360° View</span>' +
                 '</span>&nbsp;';
 
             editor.insertContent(placeholderHtml);

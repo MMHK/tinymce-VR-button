@@ -9,8 +9,7 @@ module.exports = (env, argv) => {
   return {
     entry: {
       plugin: './src/plugin.js',              // TinyMCE plugin (JS only)
-      'vr-runtime': './src/vr-runtime.js',   // Frontend runtime (JS + CSS bundled)
-      demo: './src/demo.js'
+      'vr-runtime': './src/vr-runtime.js'   // Frontend runtime (JS + CSS bundled)
     },
     
     output: {
@@ -44,7 +43,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './public/index.html',
         filename: 'index.html',
-        chunks: ['demo']
+        inject: false
       }),
       // Copy CSS file directly for easy use
       new CopyRspackPlugin({
