@@ -24,8 +24,7 @@ import './vr-button.css';
     tinymce.PluginManager.add('vrbutton', function(editor, url) {
         // VR Container Icon SVG
         var vrContainerIcon = '<svg viewBox="0 0 64 64" class="vr-360-icon" xmlns="http://www.w3.org/2000/svg">' +
-            '<circle cx="32" cy="32" r="30" fill="#667eea"/>' +
-            '<text x="32" y="38" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, sans-serif">VR 360</text>' +
+            '<circle cx="32" cy="32" r="30" fill="#1890ff"/>' +
             '</svg>';
 
         /**
@@ -77,7 +76,7 @@ import './vr-button.css';
                 '<div class="vr-360-overlay-backdrop"></div>' +
                 '<div class="vr-360-overlay-content">' +
                     '<div class="vr-360-overlay-header">' +
-                        '<span class="vr-360-overlay-title">VR 360° View</span>' +
+                        '<span class="vr-360-overlay-title">360° View</span>' +
                         '<button class="vr-360-overlay-close" title="Close" type="button">&times;</button>' +
                     '</div>' +
                     '<div class="vr-360-overlay-body">' +
@@ -113,7 +112,7 @@ import './vr-button.css';
          */
         function showVRDialog(currentUrl, callback) {
             editor.windowManager.open({
-                title: currentUrl ? 'Edit VR 360° Link' : 'Insert VR 360° Link',
+                title: currentUrl ? 'Edit 360° Link' : 'Insert 360° Link',
                 body: [
                     {
                         type: 'container',
@@ -156,7 +155,7 @@ import './vr-button.css';
             var placeholderHtml = 
                 '<span class="vr-360-container mceNonEditable" contenteditable="false" data-vr-url="' + tinymce.DOM.encode(vrUrl) + '">' +
                     vrContainerIcon +
-                    '<span class="vr-360-label">VR 360°</span>' +
+                    '<span class="vr-360-label">360°</span>' +
                 '</span>&nbsp;';
 
             editor.insertContent(placeholderHtml);
@@ -165,8 +164,8 @@ import './vr-button.css';
         // Add button to toolbar
         editor.addButton('vrbutton', {
             icon: false,
-            text: 'VR',
-            tooltip: 'Insert VR 360° Link',
+            text: '360°',
+            tooltip: 'Insert 360° Link',
             onclick: function() {
                 showVRDialog(null, insertVRPlaceholder);
             }
@@ -174,7 +173,7 @@ import './vr-button.css';
 
         // Add menu item
         editor.addMenuItem('vrbutton', {
-            text: 'VR 360° Link',
+            text: '360° Link',
             icon: false,
             context: 'insert',
             onclick: function() {
@@ -274,7 +273,7 @@ import './vr-button.css';
                     'align-items: center; ' +
                     'gap: 8px; ' +
                     'padding: 8px 12px; ' +
-                    'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); ' +
+                    'background: linear-gradient(135deg, #1890ff 0%, #0050b3 100%); ' +
                     'border-radius: 8px; ' +
                     'cursor: pointer; ' +
                     'color: white; ' +
@@ -299,7 +298,7 @@ import './vr-button.css';
                     'white-space: nowrap; ' +
                 '}' +
                 '.vr-360-icon circle { ' +
-                    'fill: #667eea; ' +
+                    'fill: #1890ff; ' +
                 '}';
             
             editor.getDoc().head.appendChild(style);
